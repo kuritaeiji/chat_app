@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <p>{{ message }}</p>
+    <b-button variant="primary">{{ message }}</b-button>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'app',
   data: function () {
     return {
       message: "Hello Vue!"
