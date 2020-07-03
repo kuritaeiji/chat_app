@@ -12,6 +12,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'turbolinks'
 gem 'bcrypt'
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   gem 'pry-rails'
