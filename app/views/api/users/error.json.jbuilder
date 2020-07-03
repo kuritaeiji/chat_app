@@ -1,3 +1,5 @@
-json.array! @object.errors.full_messages do |message|
-  json.message message
+json.set! :error_messages do
+  json.array! @user.errors.full_messages do |message|
+    json.message message
+  end
 end

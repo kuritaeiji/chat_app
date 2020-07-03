@@ -2,13 +2,11 @@ class Api::UsersController < ApplicationController
   protect_from_forgery except: [:create]
 
   def create
-    user = User.new(user_params)
-    binding.pry
-    if user.save
+    @user = User.new(user_params)
+    if @user.save
       head :no_content
     else
-      @object = user
-      render 'error', format: 'json', handlers: 'jbuilder'
+      render 'error', formats: :json, handlers: 'jbuilder'
     end
   end
 
