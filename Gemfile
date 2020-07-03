@@ -13,6 +13,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'turbolinks'
 gem 'bcrypt'
 gem "aws-sdk-s3", require: false
+gem 'rails-i18n'
 
 group :development, :test do
   gem 'pry-rails'

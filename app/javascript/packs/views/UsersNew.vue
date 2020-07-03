@@ -118,7 +118,6 @@ export default {
         this.user.avatar = this.image
       }
       reader.readAsDataURL(file) //reader.readAsDataURL(file)の処理が終わったらreader.onloadが発火
-      console.log(this.user.avatar)
     },
     async createUser() {
       try {
