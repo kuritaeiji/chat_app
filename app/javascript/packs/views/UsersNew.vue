@@ -72,15 +72,9 @@
           </b-row>
         </ValidationProvider>
         
-        <ValidationProvider rules="required" v-slot="{ errors }" name="名前">
-          <b-form-group label="プロフィール画像" label-for="avatar" label-cols-md="3">
-            <b-form-file id="avatar" @change="onChange"></b-form-file>
-          </b-form-group>
-          <b-row v-show="errors[0]">
-            <b-col md="3"></b-col>
-            <b-col>{{ errors[0] }}</b-col>
-          </b-row>
-        </ValidationProvider>
+        <b-form-group label="プロフィール画像" label-for="avatar" label-cols-md="3">
+          <b-form-file id="avatar" @change="onChange"></b-form-file>
+        </b-form-group>
         
         <div class="text-center">
           <b-button type="submit" variant="primary">登録</b-button>
@@ -123,7 +117,7 @@ export default {
       try {
         let valid = await this.$refs.observer.validate()
         if (valid) {
-          const response = await this.axios.post('/api/users.json', { user: this.user })
+          const response = await this.$axios.post('/api/users.json', { user: this.user })
           if (!response.data.error_messages) {
             console.log('成功')
           } else {
