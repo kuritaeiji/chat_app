@@ -1,11 +1,10 @@
 class Api::CookiesController < ApplicationController
-  # protect_from_forgery except: [:create]
+  protect_from_forgery except: [:create]
   def create
-    binding.pry
-    user = User.find_by(email: cookie_params[:email])
-    if user && user.authenticate(cookie_params[:password])
-      login(user) unless logged_in?(user)
-      render json: 'success'
+    @user = User.find_by(email: cookie_params[:email])
+    if @user && @user.authenticate(cookie_params[:password])
+      login(@user) unless logged_in?(@user)
+      render 'create', formats: :json, handlers: 'jbuilder'
     else
       render json: { error_message: 'メールアドレスもしくはパスワードが間違っています。' }
     end

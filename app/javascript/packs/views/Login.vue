@@ -31,6 +31,7 @@
 <script>
 import { client } from '../plugins/client.js'
 import Error from '../components/Error.vue'
+import { mapMutations, mapGetters } from 'vuex'
 
 export default({
   name: 'Login',
@@ -46,12 +47,17 @@ export default({
       errorMessages: []
     }
   },
+  computed: mapGetters('CurrentUser', ['getCurrentUser', 'getIsLoggedIn']),
   methods: {
+    ...mapMutations('CurrentUser', ['logIn']),
     async login() {
       let valid = await this.$refs.observer.validate()
       if (valid) {
         const response = await client.post('/api/cookies.json', { cookie: this.cookie })
-        if (response.data.error_message) {
+        if (response.data.hasOwnProperty('user')) {
+          this.logIn(response.data.user)
+          this.$router.push('/')
+        } else {
           this.errorMessages.push(response.data.error_message)
         }
       } 
