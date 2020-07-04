@@ -39,4 +39,9 @@ RSpec.describe User, type: :model do
     subject { create(:user) }
     it { is_expected.to validate_uniqueness_of(:identifier_id) }
   end
+
+  it 'imageableロール' do
+    user = create(:user)
+    expect(user).to respond_to(:attach_image)
+  end
 end
