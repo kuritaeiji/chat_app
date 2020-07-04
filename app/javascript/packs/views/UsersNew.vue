@@ -1,5 +1,5 @@
 <template>
-  <b-container id="users-new">
+  <b-container id="users-new" class="my-3">
     <h2 class="text-center">新規登録</h2>
 
     <ValidationObserver ref="observer">
@@ -85,6 +85,8 @@
 </template>
 
 <script>
+import { client } from '../plugins/client.js'
+
 export default {
   name: 'UsersNew',
   data() {
@@ -106,22 +108,22 @@ export default {
     onChange() {
       // base64エンコードする
       let file = event.target.files[0] || event.dataTransfer.files
+      console.log(event.target.files[0])
       let reader = new FileReader()
+      reader.readAsDataURL(file) //reader.readAsDataURL(file)の処理が終わったらreader.onloadが発火
       reader.onload = () => {
         this.image = event.target.result
         this.user.avatar = this.image
       }
-      reader.readAsDataURL(file) //reader.readAsDataURL(file)の処理が終わったらreader.onloadが発火
     },
     async createUser() {
       try {
         let valid = await this.$refs.observer.validate()
         if (valid) {
-          const response = await this.$axios.post('/api/users.json', { user: this.user })
+          const response = await client.post('/api/users.json', { user: this.user })
           if (!response.data.error_messages) {
             console.log('成功')
           } else {
-            
             response.data.error_messages.forEach((error) => {
               this.errorMessages.push(error.message)
             })
