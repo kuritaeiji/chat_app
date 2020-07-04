@@ -1,8 +1,8 @@
 class Api::CookiesController < ApplicationController
-  protect_from_forgery except: [:create]
+  # protect_from_forgery except: [:create]
   def create
-    user = User.find_by(email: params[:email])
-    if user.authenticate(params[:password])
+    user = User.find_by(email: cookie_params[:email])
+    if user.authenticate(cookie_params[:password])
       login(user)
       render json: 'success'
     else
