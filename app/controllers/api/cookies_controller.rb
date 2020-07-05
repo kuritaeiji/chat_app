@@ -1,5 +1,5 @@
 class Api::CookiesController < ApplicationController
-  protect_from_forgery except: [:create]
+  # protect_from_forgery except: [:create, :destroy]
   def create
     @user = User.find_by(email: cookie_params[:email])
     if @user && @user.authenticate(cookie_params[:password])
@@ -8,6 +8,11 @@ class Api::CookiesController < ApplicationController
     else
       render json: { error_message: 'メールアドレスもしくはパスワードが間違っています。' }
     end
+  end
+
+  def destroy
+    cookies.delete(:user_id)
+    render json: { message: 'success' }
   end
 
   private

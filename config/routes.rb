@@ -5,6 +5,6 @@ Rails.application.routes.draw do
   
   namespace :api do
     resources :cookies, only: [:create, :destroy]
-    resources :users, only: [:create]
+    resources :users, only: [:create, :destroy]
   end
 end
