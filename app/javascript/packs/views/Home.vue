@@ -6,11 +6,14 @@
 </template>
 
 <script>
-import { logInGuard } from '../navigation-guards'
 import { mapGetters } from 'vuex'
 export default {
   name: 'Home',
   computed: mapGetters('CurrentUser', ['getIsLoggedIn', 'getCurrentUser']),
-  beforeRouteEnter: logInGuard
+  created() {
+    let cookies = document.cookie
+    console.log(cookies)
+    console.log(cookies.match('user_id'))
+  }
 }
 </script>

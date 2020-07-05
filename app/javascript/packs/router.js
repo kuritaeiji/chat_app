@@ -6,11 +6,25 @@ import Home from './views/Home.vue'
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
+const router =  new VueRouter({
   mode: 'history',
   routes: [
-    { path: '/',          component: Home,     name: 'Home' },
+    { path: '/',          component: Home,     name: 'Home'     , meta: { isAuthLogIn: true }},
     { path: '/users/new', component: UsersNew, name: 'UsersNew' },
-    { path: '/login',     component: Login,    name: 'Login'}
+    { path: '/login',     component: Login,    name: 'Login'    , meta: { isAuthLogout: true}}
   ]
 })
+
+let cookies = document.cookie
+
+router.beforeEach((to, from ,next) => {
+  if (to.matched.some((route) => route.meta.isAuthLogIn) && !cookies.match('user_id')) {
+    next({ path: '/login' })
+  } else if (to.matched.some((route) => route.meta.isAuthLogOut) && cookied.match('user_id')) {
+    next({ path: from.path })
+  } else {
+    next()
+  }
+})
+
+export default router

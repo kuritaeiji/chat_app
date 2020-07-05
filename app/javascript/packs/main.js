@@ -1,6 +1,7 @@
-import './plugins/bootstrap-vue.js'
 import './plugins/turbolinks'
 import './plugins/vee-validate'
+import './plugins/toast'
+import './plugins/bootstrap-vue.js'
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
