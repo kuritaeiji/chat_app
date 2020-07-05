@@ -1,5 +1,5 @@
 import axios from 'axios'
-export const client = axios.create()
+export const client = axios.create({ withCredentials: true })
 if (document.querySelector('meta[name="csrf-token"]')) {
   const csrf_token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   client.defaults.headers.common = {

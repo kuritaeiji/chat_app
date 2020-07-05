@@ -21,7 +21,7 @@ describe('UsersNew.vue', () => {
       localVue,
     })
     mockAxios.onPost('/api/users.json').reply('200', { error_messages: [ { message: 'message' } ] })
-    
+
     wrapper.vm.$refs.observer.validate = () => Promise.resolve(true)
     wrapper.find('form').trigger('submit.prevent')
     await flushPromises()
