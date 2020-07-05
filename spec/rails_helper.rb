@@ -13,6 +13,9 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Dir[Rails.root.join("spec/support/config/*.rb")].each { |f| require f }
+Dir[Rails.root.join("spec/support/helper/*.rb")].each { |f| require f }
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -27,4 +30,4 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 end
 
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+
