@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { client } from './plugins/client'
 export default {
   name: 'App',
   computed: mapGetters('CurrentUser', ['getIsLoggedIn', 'getCurrentUser']),
   methods: {
-    ...mapMutations('CurrentUser', ['logOut']),
+    ...mapActions('CurrentUser', ['logOut']),
     async signOut() {
       try {
         const response = await client.delete(`/api/cookies/${this.getCurrentUser.id}.json`)

@@ -24,7 +24,7 @@ describe('Login.vue', () => {
 
     const CurrentUser = {
       namespaced: true,
-      mutations: {
+      actions: {
         logIn: jest.fn()
       }
     }
@@ -41,12 +41,13 @@ describe('Login.vue', () => {
         $router: router
       }
     })
-    mockAxios.onPost('/api/cookies.json').reply('200', { user: { name: 'example', identifier_id: 'example' } })
+    const user = { user: { name: 'example', identifier_id: 'example' } }
+    mockAxios.onPost('/api/cookies.json').reply('200', user)
     wrapper.vm.$refs.observer.validate = () => Promise.resolve(true)
     wrapper.find('form').trigger('submit.prevent')
     await flushPromises()
 
-    expect(CurrentUser.mutations.logIn).toHaveBeenCalled()
+    expect(CurrentUser.actions.logIn).toHaveBeenCalled()
     expect(router.push).toHaveBeenCalled()
   })
 

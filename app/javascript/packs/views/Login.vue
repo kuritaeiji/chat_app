@@ -31,7 +31,7 @@
 <script>
 import { client } from '../plugins/client.js'
 import Error from '../components/Error.vue'
-import { mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default({
   name: 'Login',
@@ -48,7 +48,7 @@ export default({
     }
   },
   methods: {
-    ...mapMutations('CurrentUser', ['logIn']),
+    ...mapActions('CurrentUser', ['logIn']),
     async login() {
       let valid = await this.$refs.observer.validate()
       if (valid) {

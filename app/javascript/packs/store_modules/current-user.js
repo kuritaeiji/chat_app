@@ -21,5 +21,13 @@ export default {
       state.currentUser = {},
       state.isLoggedIn = false
     }
+  },
+  actions: {
+    logIn(context, payload) {
+      context.commit('logIn', payload)
+    },
+    logOut(context) {
+      context.commit('logOut')
+    }
   }
 }
