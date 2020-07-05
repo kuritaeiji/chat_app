@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 export default new VueRouter({
   mode: 'history',
   routes: [
-    { path: '/',          component: Home,     name: 'Home'},
+    { path: '/',          component: Home,     name: 'Home' },
     { path: '/users/new', component: UsersNew, name: 'UsersNew' },
     { path: '/login',     component: Login,    name: 'Login'}
   ]

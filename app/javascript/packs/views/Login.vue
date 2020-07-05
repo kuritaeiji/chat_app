@@ -47,6 +47,9 @@ export default({
       errorMessages: []
     }
   },
+  created() {
+    console.log(this.getCurrentUser)
+  },
   computed: mapGetters('CurrentUser', ['getCurrentUser', 'getIsLoggedIn']),
   methods: {
     ...mapMutations('CurrentUser', ['logIn']),
@@ -56,6 +59,7 @@ export default({
         const response = await client.post('/api/cookies.json', { cookie: this.cookie })
         if (response.data.hasOwnProperty('user')) {
           this.logIn(response.data.user)
+          console.log(this.getCurrentUser)
           this.$router.push('/')
         } else {
           this.errorMessages.push(response.data.error_message)

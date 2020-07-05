@@ -5,7 +5,11 @@
 </template>
 
 <script>
+import { logInGuard } from '../navigation-guards'
+import { mapGetters } from 'vuex'
 export default {
-  name: 'Home'
+  name: 'Home',
+  computed: mapGetters('CurrentUser', ['getIsLoggedIn', 'getCurrentUser']),
+  beforeRouteEnter: logInGuard
 }
 </script>
