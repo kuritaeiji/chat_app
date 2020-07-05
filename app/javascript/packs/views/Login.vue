@@ -59,7 +59,6 @@ export default({
         const response = await client.post('/api/cookies.json', { cookie: this.cookie })
         if (response.data.hasOwnProperty('user')) {
           this.logIn(response.data.user)
-          console.log(this.getCurrentUser)
           this.$router.push('/')
         } else {
           this.errorMessages.push(response.data.error_message)
