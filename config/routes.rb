@@ -7,4 +7,7 @@ Rails.application.routes.draw do
     resources :cookies, only: [:create, :destroy]
     resources :users, only: [:create, :destroy]
   end
+
+  resources :account_activations, only: [:create]
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end
