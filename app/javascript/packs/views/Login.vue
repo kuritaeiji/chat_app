@@ -47,10 +47,6 @@ export default({
       errorMessages: []
     }
   },
-  created() {
-    console.log(this.getCurrentUser)
-  },
-  computed: mapGetters('CurrentUser', ['getCurrentUser', 'getIsLoggedIn']),
   methods: {
     ...mapMutations('CurrentUser', ['logIn']),
     async login() {
