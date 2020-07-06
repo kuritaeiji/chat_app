@@ -103,8 +103,12 @@ export default {
         let valid = await this.$refs.observer.validate()
         if (valid) {
           const response = await client.post('/api/users.json', { user: this.user })
-          if (!response.data.error_messages) {
-            console.log('成功')
+          if (response.data.message && response.data.message == 'success') {
+            this.$toasted.show("アカウウント有効化メールを送信しました。", { 
+              theme: "bubble", 
+              position: "top-right", 
+              duration : 5000
+            })
           } else {
             response.data.error_messages.forEach((error) => {
               this.errorMessages.push(error.message)

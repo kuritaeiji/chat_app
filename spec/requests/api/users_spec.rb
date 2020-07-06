@@ -19,4 +19,14 @@ RSpec.describe "Api::Users", type: :request do
       expect(json['error_messages'])
     end
   end
+
+  describe 'show' do
+    it 'ユーザー情報を返す' do
+      user = create(:user)
+      get "/api/users/#{user.id}"
+      json = JSON.parse(response.body)
+
+      expect(json['user']['name']).to eq(user.name)
+    end
+  end
 end

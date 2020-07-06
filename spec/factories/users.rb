@@ -7,5 +7,6 @@ FactoryBot.define do
     identifier_id           { 'example' }
     activated               { true }
     activated_at            { Time.zone.now }
+    activation_digest       { nil }
   end
 end

@@ -18,7 +18,7 @@ localVue.component('ValidationObserver', ValidationObserver)
 describe('UsersNew.vue', () => {
   it('正しくない値の時エラーメッセージを受け取る', async () => {
     const wrapper = mount(UsersNew, {
-      localVue,
+      localVue
     })
     mockAxios.onPost('/api/users.json').reply('200', { error_messages: [ { message: 'message' } ] })
 
@@ -26,5 +26,24 @@ describe('UsersNew.vue', () => {
     wrapper.find('form').trigger('submit.prevent')
     await flushPromises()
     expect(wrapper.vm.errorMessages[0]).toBe('message')
+  })
+
+  it('正しい値を入力するとtoastが呼び出される', async () => {
+    let toasted = {
+      show: jest.fn()
+    }
+    mockAxios.onPost('/api/users.json').reply('200', { message: 'success' } )
+    const wrapper = mount(UsersNew, {
+      localVue,
+      mocks: {
+        $toasted: toasted
+      }
+    })
+
+    wrapper.vm.$refs.observer.validate = () => Promise.resolve(true)
+    wrapper.find('form').trigger('submit.prevent')
+    await flushPromises()
+
+    expect(toasted.show).toHaveBeenCalled()
   })
 })
