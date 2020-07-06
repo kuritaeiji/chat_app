@@ -111,6 +111,7 @@ export default {
             })
           } else {
             response.data.error_messages.forEach((error) => {
+              this.errorMessages = []
               this.errorMessages.push(error.message)
             })
           }
