@@ -44,4 +44,11 @@ RSpec.describe User, type: :model do
     user = create(:user)
     expect(user).to respond_to(:attach_image)
   end
+
+  it 'create_activation_token_and_digest' do
+    user = create(:user)
+    user.create_activation_token_and_digest
+
+    expect(user.activation_token == user.activation_digest).to be_truthy
+  end
 end

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_accessor :activation_token
+
   validates :name, presence: true, length: { maximum: 20 }
   validates :email, presence: true, uniqueness: true, format: { with: /\A\S+@\S+\.\S+\z/, message: 'は正しいアドレスを入力してください'}
   validates :description, length: { maximum: 100 }
@@ -9,4 +11,9 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   include Imageable
+
+  def create_activation_token_and_digest
+    self.activation_token = SecureRandom.base64
+    update_attribute(:activation_digest, BCrypt::Password.create(activation_token))
+  end
 end

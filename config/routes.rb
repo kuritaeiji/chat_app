@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   
   namespace :api do
     resources :cookies, only: [:create, :destroy]
-    resources :users, only: [:create, :destroy]
+    resources :users, only: [:create, :destroy, :show]
   end
+
+  resources :account_activations, only: [:new]
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end

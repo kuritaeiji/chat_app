@@ -5,5 +5,8 @@ FactoryBot.define do
     password                { 'password' }
     password_confirmation   { 'password' }
     identifier_id           { 'example' }
+    activated               { true }
+    activated_at            { Time.zone.now }
+    activation_digest       { nil }
   end
 end
