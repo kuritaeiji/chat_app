@@ -34,5 +34,15 @@ RSpec.describe "Api::Cookies", type: :request do
       expect(json['error_message']).to eq('メールアドレスもしくはパスワードが間違っています。')
       expect(response.status).to eq(200)
     end
+
+    it '正しいメールアドレスとパスワードが入力されたがアカウウントが有効化されていない時エラ〜メッセージを返す' do
+      user = create(:user, activated: false)
+      post '/api/cookies', params: { cookie: { email: user.email, password: user.password } }
+      json = JSON.parse(response.body)
+
+      expect(cookies[:user_id]).to eq(nil)
+      expect(json['error_message']).to eq('アカウントが有効化されていません')
+      expect(response.status).to eq(200)
+    end
   end
 end
