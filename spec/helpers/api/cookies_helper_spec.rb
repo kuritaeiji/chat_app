@@ -6,7 +6,7 @@ RSpec.describe Api::CookiesHelper, type: :helper do
     it 'cookieを作成する' do
       user = create(:user)
       login(user)
-      expect(cookies.signed[:user_id]).to eq(user.id)
+      expect(cookies[:user_id]).to eq(user.id)
     end
   end
 

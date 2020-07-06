@@ -4,7 +4,7 @@ RSpec.describe "Api::Cookies", type: :request do
   describe 'destroy' do
     it 'cookieを削除する' do
       user = create(:user)
-      cookies.signed[:user_id] = { value: user.id, expired: 1.year.from_now }
+      cookies[:user_id] = { value: user.id, expired: 1.year.from_now }
       delete "/api/cookies/#{user.id}"
       json = JSON.parse(response.body)
 
@@ -20,7 +20,7 @@ RSpec.describe "Api::Cookies", type: :request do
       post '/api/cookies', params: { cookie: { email: user.email, password: user.password } }
       json = JSON.parse(response.body)
 
-      expect(cookies.signed[:user_id].present?).to be_truthy
+      expect(cookies[:user_id].present?).to be_truthy
       expect(json['user']['id']).to eq(user.id)
       expect(response.status).to eq(200)
     end
