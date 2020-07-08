@@ -5,7 +5,15 @@ Rails.application.routes.draw do
   
   namespace :api do
     resources :cookies, only: [:create, :destroy]
-    resources :users, only: [:create, :destroy, :show]
+    resources :users, only: [:create, :destroy, :show] do
+      resources :friendships, only: [:index, :create] do
+        collection do
+          get :users_applying_for_friends_to_me
+          put :approve
+          delete :destroy_friend
+        end
+      end
+    end
   end
 
   resources :account_activations, only: [:new]

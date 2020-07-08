@@ -1,0 +1,1 @@
+json.array! @users_applying_for_friends_to_me, :name, :description

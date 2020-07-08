@@ -40,7 +40,8 @@ class User < ApplicationRecord
   end
 
   def apply_for_friend_to(other_user)
-    Friendship.create(requesting_user_id: id, requested_user_id: other_user.id)
+    friendship = Friendship.new(requesting_user_id: id, requested_user_id: other_user.id)
+    friendship.save
   end
 
   def approve_friend_from(other_user)
