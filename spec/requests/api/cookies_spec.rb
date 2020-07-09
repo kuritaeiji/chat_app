@@ -21,7 +21,7 @@ RSpec.describe "Api::Cookies", type: :request do
       json = JSON.parse(response.body)
 
       expect(cookies[:user_id].present?).to be_truthy
-      expect(json['user']['id']).to eq(user.id)
+      expect(json['message']).to eq('success')
       expect(response.status).to eq(200)
     end
 

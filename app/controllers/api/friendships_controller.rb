@@ -1,6 +1,6 @@
 class Api::FriendshipsController < ApplicationController
-  protect_from_forgery except: [:index, :users_applying_for_friends_to_me, :create, :approve, :destroy_friend]
-  # before_action :logged_in_user
+  # protect_from_forgery except: [:index, :users_applying_for_friends_to_me, :create, :approve, :destroy_friend]
+  before_action :logged_in_user
 
   def index
     user = User.find_by(id: params[:user_id])

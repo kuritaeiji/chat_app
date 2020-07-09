@@ -53,8 +53,7 @@ export default({
       let valid = await this.$refs.observer.validate()
       if (valid) {
         const response = await client.post('/api/cookies.json', { cookie: this.cookie })
-        if (response.data.hasOwnProperty('user')) {
-          this.logIn(response.data.user)
+        if (response.data.message == 'success') {
           this.$router.push('/')
         } else {
           this.errorMessages.push(response.data.error_message)

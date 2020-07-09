@@ -4,8 +4,8 @@ module Api::CookiesHelper
   end
 
   def current_user
-    if cookies[:user_id].slice(/\d+/)
-      current_user ||= User.find_by(id: cookies[:user_id].slice(/\d+/))
+    if cookies[:user_id]
+      current_user ||= User.find_by(id: cookies[:user_id])
     end
   end
 

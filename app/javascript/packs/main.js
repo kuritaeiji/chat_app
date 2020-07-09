@@ -1,3 +1,5 @@
+import './stylesheets/application.css'
+require.context('./images', true, /\.(png|jpg|jpeg|svg)$/)
 import './plugins/turbolinks'
 import './plugins/vee-validate'
 import './plugins/toast'
