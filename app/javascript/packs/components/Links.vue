@@ -1,17 +1,17 @@
 <template>
   <b-row no-gutters id="links">
-    <b-col>
-      <router-link to="/" tag="div" active-class="current" class="text-center link p-3">
+    <b-col class="link">
+      <router-link to="/" tag="div" active-class="current" class="text-center p-3" exact>
         フレンド <span v-if="getUsersCountApplyingForFriends !== 0">{{ getUsersCountApplyingForFriends}}</span>
       </router-link>
     </b-col>
-    <b-col>
-      <router-link to="/" tag="div" active-class="current" class="text-center link p-3">
+    <b-col class="link">
+      <router-link to="/" tag="div" active-class="current" class="text-center p-3">
         トーク
       </router-link>
     </b-col>
-    <b-col>
-      <router-link to="/" tag="div" active-class="current" class="text-center link p-3">
+    <b-col class="link">
+      <router-link to="/settings" tag="div" active-class="current" class="text-center p-3">
         設定
       </router-link>
     </b-col>
@@ -27,7 +27,12 @@ export default {
     ...mapGetters('Count', ['getUsersCountApplyingForFriends', 'getNotReadMessagesCount']),
     ...mapGetters('CurrentUser', ['getCurrentUser'])
   },
-  methods: mapActions('Count', ['fetchUsersCountApplyingForFriends', 'fetchNotReadMessagesCount']),
+  methods: {
+    ...mapActions('Count', ['fetchUsersCountApplyingForFriends', 'fetchNotReadMessagesCount']),
+    getCookie() {
+      return document.cookie.split('; ').find((cookie) => cookie.startsWith('user_id')).split('=')[1]
+    }
+  },
   created() {
     let that = this
     this.timer = setInterval(() => {
@@ -38,12 +43,16 @@ export default {
     clearInterval(this.timer)
   },
   mounted() {
-    this.fetchUsersCountApplyingForFriends(this.getCurrentUser.id)
+    this.fetchUsersCountApplyingForFriends(this.getCookie())
   }
 }
 </script>
 
 <style scoped>
+#links {
+  border-bottom: 1px solid #e6ecf0;
+}
+
 .link:hover {
   cursor: pointer;
   background-color: #e6ecf0;
