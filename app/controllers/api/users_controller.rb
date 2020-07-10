@@ -15,7 +15,7 @@ class Api::UsersController < ApplicationController
 
   def show
     @user = User.find_by(id: params[:id])
-    @user.encode_image if @user.avatar.attached?
+    @user.convert_image_to_url if @user.avatar.attached?
     render 'show', formats: :json, handlers: 'jbuilder'
   end
 

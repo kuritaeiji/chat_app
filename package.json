@@ -9,7 +9,8 @@
     ],
     "transform": {
       "\\.js$": "babel-jest",
-      "\\.vue$": "vue-jest"
+      "\\.vue$": "vue-jest",
+      ".+\\.(css|styl|less|sass|scss|png|jpg|svg|ttf|woff|woff2)$": "jest-transform-stub"
     }
   },
   "private": true,
@@ -27,6 +28,7 @@
     "bootstrap-vue": "^2.15.0",
     "flush-promises": "^1.0.2",
     "jest": "^26.1.0",
+    "jest-transform-stub": "^2.0.0",
     "turbolinks": "^5.2.0",
     "vee-validate": "^3.3.7",
     "vue": "^2.6.11",

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       resources :friendships, only: [:index, :create] do
         collection do
           get :users_applying_for_friends_to_me
+          get :users_count_applying_for_friends_to_me
+          get :friends
           put :approve
           delete :destroy_friend
         end

@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :activation_token, :encoded_avatar
+  attr_accessor :activation_token, :avatar_url
 
   has_many :requesting_friendships, class_name: 'Friendship', foreign_key: 'requesting_user_id', dependent: :destroy # 友達申請した側のユーザーの中間テーブル
   has_many :requesting_friends, through: :requesting_friendships, source: :requested_user # 自分から友達申請して友達になった友達

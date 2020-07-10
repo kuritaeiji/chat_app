@@ -6,6 +6,9 @@ class Api::FriendshipsController < ApplicationController
     user = User.find_by(id: params[:user_id])
     @friends = user.friends
     if (@friends.length > 0)
+      @friends.each do |friend|
+        friend.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if friend.avatar.attached?
+      end
       render 'index', formats: :json, handlers: 'jbuilder'
     else
       render json: { message: '友達がいません' }
@@ -16,10 +19,19 @@ class Api::FriendshipsController < ApplicationController
     user = User.find_by(id: params[:user_id])
     @users_applying_for_friends_to_me = user.users_applying_for_friends_to_me
     if (@users_applying_for_friends_to_me.length > 0)
+      @users_applying_for_friends_to_me.each do |user|
+        user.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if user.avatar.attached?
+      end
       render 'users_applying_for_friends_to_me', formats: :json, handlers: 'jbuilder'
     else
       render json: { message: '申請してきているユーザーはいません' }
     end
+  end
+
+  def users_count_applying_for_friends_to_me
+    user = User.find_by(id: params[:user_id])
+    count = user.users_count_applying_for_friends_to_me
+    render json: { count: count }
   end
 
   def create # 友達申請するアクション
