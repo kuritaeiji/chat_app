@@ -15,6 +15,7 @@ export default {
   mutations: {
     logIn(state, payload) {
       state.currentUser = payload
+      Object.assign({}, payload)
       state.isLoggedIn = true
     },
     logOut(state) {

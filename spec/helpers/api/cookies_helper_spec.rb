@@ -14,6 +14,7 @@ RSpec.describe Api::CookiesHelper, type: :helper do
     it 'ログインしている時current_userを返す' do
       user = create(:user)
       login(user)
+      puts cookies[:user_id]
 
       expect(current_user).to eq(user)
     end
@@ -28,13 +29,13 @@ RSpec.describe Api::CookiesHelper, type: :helper do
       user = create(:user)
       login(user)
 
-      expect(logged_in?(user)).to eq(true)
+      expect(logged_in?).to eq(true)
     end
 
     it 'ログインしていない時falseを返す' do
       user = create(:user)
 
-      expect(logged_in?(user)).to eq(false)
+      expect(logged_in?).to eq(false)
     end
   end
 end

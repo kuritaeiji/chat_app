@@ -20,8 +20,6 @@ let cookies = document.cookie
 router.beforeEach((to, from ,next) => {
   if (to.matched.some((route) => route.meta.isAuthLogIn) && !cookies.match('user_id')) {
     next({ path: '/login' })
-  } else if (to.matched.some((route) => route.meta.isAuthLogOut) && !!cookies.match('user_id')) {
-      next({ path: '/' })
   } else {
     next()
   }

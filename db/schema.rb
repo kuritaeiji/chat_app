@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_05_081928) do
+ActiveRecord::Schema.define(version: 2020_07_06_092531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 2020_07_05_081928) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "requesting_user_id"
+    t.bigint "requested_user_id"
+    t.boolean "approved", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["requested_user_id"], name: "index_friendships_on_requested_user_id"
+    t.index ["requesting_user_id"], name: "index_friendships_on_requesting_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -51,4 +61,6 @@ ActiveRecord::Schema.define(version: 2020_07_05_081928) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "friendships", "users", column: "requested_user_id"
+  add_foreign_key "friendships", "users", column: "requesting_user_id"
 end

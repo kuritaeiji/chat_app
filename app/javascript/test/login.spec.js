@@ -5,49 +5,31 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { client } from '../packs/plugins/client.js'
 import MockAdapter from 'axios-mock-adapter'
 const mockAxios = new MockAdapter(client)
-import Vuex from 'vuex'
-
 
 const localVue = createLocalVue()
 localVue.use(BootstrapVue)
-localVue.use(Vuex)
 localVue.component('ValidationProvider', ValidationProvider)
 localVue.component('ValidationObserver', ValidationObserver)
 import Login from '../packs/views/Login.vue'
 import Error from '../packs/components/Error.vue'
 
 describe('Login.vue', () => {
-  it('正しいパスワードとメールアドレスが入力されるとログインする', async () => {
+  it('正しいパスワードとメールアドレスが入力されるとhome画面に遷移', async () => {
     const router = {
       push: jest.fn()
     }
 
-    const CurrentUser = {
-      namespaced: true,
-      actions: {
-        logIn: jest.fn()
-      }
-    }
-
-    const store = new Vuex.Store({
-      modules: {
-        CurrentUser: CurrentUser
-      }
-    })
-    
     const wrapper = mount(Login, {
-      localVue, store,
+      localVue,
       mocks: {
         $router: router
       }
     })
-    const user = { user: { name: 'example', identifier_id: 'example' } }
-    mockAxios.onPost('/api/cookies.json').reply('200', user)
+    mockAxios.onPost('/api/cookies.json').reply('200', { message: 'success' })
     wrapper.vm.$refs.observer.validate = () => Promise.resolve(true)
     wrapper.find('form').trigger('submit.prevent')
     await flushPromises()
 
-    expect(CurrentUser.actions.logIn).toHaveBeenCalled()
     expect(router.push).toHaveBeenCalled()
   })
 

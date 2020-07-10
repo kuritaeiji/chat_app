@@ -3,8 +3,8 @@ class Api::CookiesController < ApplicationController
   def create
     @user = User.find_by(email: cookie_params[:email])
     if @user && @user.authenticate(cookie_params[:password]) && @user.activated
-      login(@user) unless logged_in?(@user)
-      render 'create', formats: :json, handlers: 'jbuilder'
+      login(@user) unless logged_in?
+      render json: { message: 'success' }
     elsif @user && !@user.activated
       render json: { error_message: 'アカウントが有効化されていません' }
     else

@@ -1,1 +1,0 @@
-json.user @user, :id, :name, :description, :identifier_id

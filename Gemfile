@@ -14,6 +14,8 @@ gem 'turbolinks'
 gem 'bcrypt'
 gem "aws-sdk-s3", require: false
 gem 'rails-i18n'
+gem 'faker'
+gem 'mini_magick'
 
 group :development, :test do
   gem 'pry-rails'
