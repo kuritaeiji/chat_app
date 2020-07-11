@@ -6,7 +6,7 @@
         <div class="card-body">
           <h3 class="card-title font-weight-bold">{{ user.name }}</h3>
           <p class="card-text">{{ user.description }}</p>
-          <b-button variant="primary" @click.stop="approve" id="approve-button">承認</b-button>
+          <b-button variant="primary" @click.stop="applyForFriend" id="apply-button">フレンド申請</b-button>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@ export default {
   props: {
     showModal: Boolean,
     user: Object,
-    defaultAvatar: String
+    defaultAvatar: String,
   },
   data() {
     return {
@@ -32,20 +32,22 @@ export default {
   computed: mapGetters('CurrentUser', ['getCurrentUser']),
   methods: {
     closeModal() {
-      this.$emit('closeUserModal')
+      this.$emit('closeModal')
     },
     setImage() {
       this.image = this.user.avatar ? this.user.avatar : this.defaultAvatar
     },
-    async approve() {
+    async applyForFriend() {
       try {
-        const response = await client.put(`/api/users/${this.getCurrentUser.id}/friendships/approve.json`, { requesting_user_id: this.user.id })
-        this.$toasted.show('フレンド承認しました。', {
-          theme: "bubble", 
-          position: "top-right", 
-          duration : 5000
-        })
-        this.$router.go({ path: this.$router.currentRoute.path, force: true })
+        const response = await client.post(`/api/users/${this.getCurrentUser.id}/friendships.json`, { requested_user_id: this.user.id })
+        if (response.data.message == 'success') {
+          this.$toasted.show('フレンド申請しました。', {
+            theme: "bubble", 
+            position: "top-right", 
+            duration : 5000
+          })
+          this.$router.push('/')
+        }
       } catch (error) {
         console.log(error)
       }
@@ -53,8 +55,6 @@ export default {
   },
   mounted() {
     this.setImage()
-    console.log(this.getCurrentUser.id)
-    console.log(this.user.id)
   }
 }
 </script>

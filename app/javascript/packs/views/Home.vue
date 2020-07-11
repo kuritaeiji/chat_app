@@ -49,7 +49,7 @@
 
     <!-- モーダル -->
     <div v-for="(user, index) in usersApplyingForFriends" :key="index">
-      <Modal :showUser="showUsers[index]" @closeUserModal="closeUserModal(index)" :user="user" :defaultAvatar="defaultAvatar"></Modal>
+      <Modal :showModal="showUsers[index]" @closeUserModal="closeUserModal(index)" :user="user" :defaultAvatar="defaultAvatar"></Modal>
     </div>
   </div>
 </template>

@@ -38,7 +38,7 @@ class Api::FriendshipsController < ApplicationController
     requesting_user = User.find_by(id: params[:user_id])
     requested_user = User.find_by(id: params[:requested_user_id])
     if requesting_user.apply_for_friend_to(requested_user)
-      render json: { message: '申請しました。' }
+      render json: { message: 'success' }
     else
       render json: { message: 'エラー' }
     end
@@ -60,11 +60,4 @@ class Api::FriendshipsController < ApplicationController
     user.delete_friend(destroying_user)
     render json: { message: '解除しました。' }
   end
-
-  private
-    def logged_in_user
-      unless logged_in?
-        render json: { message: 'ログインしてください' }
-      end
-    end
 end
