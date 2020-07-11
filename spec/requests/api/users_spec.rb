@@ -29,4 +29,28 @@ RSpec.describe "Api::Users", type: :request do
       expect(json['user']['name']).to eq(user.name)
     end
   end
+
+  describe 'update' do
+    before do
+      @user = create(:user)
+    end
+
+    it 'ユーザーをアップデートする' do
+      valid_params = attributes_for(:user)
+      put "/api/users/#{@user.id}", params: { user: valid_params }
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(200)
+      expect(json['user']["name"]).to eq(valid_params[:name])
+    end
+
+    it '不正な値の時エラ〜メッセージを返す' do
+      invalid_params = attributes_for(:user, name: '')
+      put "/api/users/#{@user.id}", params: { user: invalid_params }
+      json = JSON.parse(response.body)
+
+      expect(response.status).to eq(200)
+      expect(json['error_messages'][0]['message']).to eq('名前を入力してください')
+    end
+  end
 end

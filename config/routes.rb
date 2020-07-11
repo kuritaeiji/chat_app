@@ -3,12 +3,12 @@ Rails.application.routes.draw do
   get '/login', to: 'home#index'
   get '/users/new', to: 'home#index'
   get '/settings', to: 'home#index'
-  get '/users/search', to: 'home#index'
-  get '/users/edit', to: 'home#index'
+  get '/settings/users/search', to: 'home#index'
+  get '/settings/users/edit', to: 'home#index'
   
   namespace :api do
     resources :cookies, only: [:create, :destroy]
-    resources :users, only: [:create, :destroy, :show] do
+    resources :users, only: [:create, :destroy, :show, :update] do
       resources :friendships, only: [:index, :create] do
         collection do
           get :users_applying_for_friends_to_me

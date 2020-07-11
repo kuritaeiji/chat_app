@@ -90,7 +90,6 @@ export default {
     onChange() {
       // base64エンコードする
       let file = event.target.files[0] || event.dataTransfer.files
-      console.log(event.target.files[0])
       let reader = new FileReader()
       reader.readAsDataURL(file) //reader.readAsDataURL(file)の処理が終わったらreader.onloadが発火
       reader.onload = () => {
@@ -110,8 +109,8 @@ export default {
               duration : 5000
             })
           } else {
+            this.errorMessages = []
             response.data.error_messages.forEach((error) => {
-              this.errorMessages = []
               this.errorMessages.push(error.message)
             })
           }

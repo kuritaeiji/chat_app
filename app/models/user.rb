@@ -13,7 +13,8 @@ class User < ApplicationRecord
   validates :identifier_id, presence: true, uniqueness: true, length: { maximum: 20 }, format: { with: /\A[a-z0-9]+\z/i, message: 'は半角英数字のみ使えます' }
 
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, on: :create
+  validates :password, length: { minimum: 6 }, on: :update, allow_blank: true
 
   has_one_attached :avatar
   include Imageable

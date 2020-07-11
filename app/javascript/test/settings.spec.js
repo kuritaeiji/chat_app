@@ -50,7 +50,6 @@ describe('Settings.vue', () => {
         Links: Stub
       }
     })
-    console.log(wrapper.find('#log-out'))
     wrapper.find('#log-out').trigger('click')
     await flushPromises()
 

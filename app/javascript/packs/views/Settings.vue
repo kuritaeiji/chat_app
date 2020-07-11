@@ -7,14 +7,14 @@
       <b-row>
         <b-col class="d-none d-md-block" md="3"></b-col>
         <b-col class="setting p-3">
-          <router-link to="/users/search" tag="div">ユーザー検索</router-link>
+          <router-link to="/settings/users/search" tag="div">ユーザー検索</router-link>
         </b-col>
         <b-col class="d-none d-md-block" md="3"></b-col>
       </b-row>
       <b-row>
         <b-col class="d-none d-md-block" md="3"></b-col>
         <b-col class="setting p-3">
-          <router-link to="/users/edit" tag="div">プロフィール編集</router-link>
+          <router-link to="/settings/users/edit" tag="div">プロフィール編集</router-link>
         </b-col>
         <b-col class="d-none d-md-block" md="3"></b-col>
       </b-row>
@@ -42,10 +42,8 @@ export default {
     ...mapActions('CurrentUser', ['logOut']),
     async signOut() {
       try {
-        console.log('クリック')
         const response = await client.delete(`/api/cookies/${this.getCurrentUser.id}`)
         if (response.data.message == 'success') {
-          console.log('ログアウト')
           this.logOut()
           this.$router.push('/login')
         }
