@@ -49,7 +49,7 @@
 
     <!-- モーダル -->
     <div v-for="(user, index) in usersApplyingForFriends" :key="index">
-      <Modal :showUser="showUsers[index]" @closeUserModal="closeUserModal(index)" :user="user" :defaultAvatar="defaultAvatar"></Modal>
+      <Modal :showModal="showUsers[index]" @closeUserModal="closeUserModal(index)" :user="user" :defaultAvatar="defaultAvatar"></Modal>
     </div>
   </div>
 </template>
@@ -78,8 +78,8 @@ export default {
   computed: { 
     ...mapGetters('CurrentUser', ['getIsLoggedIn', 'getCurrentUser'])
   },
-  mounted() {
-    this.fetchCurrentUser()
+  async mounted() {
+    await this.fetchCurrentUser()
     this.fetchUsersApplyingForFriends()
     this.fetchFriends()
   },
@@ -96,7 +96,7 @@ export default {
       }
     },
     getCookie() {
-      return document.cookie.split(';').find((cookie) => cookie.startsWith('user_id')).split('=')[1]
+      return document.cookie.split('; ').find((cookie) => cookie.startsWith('user_id')).split('=')[1]
     },
     async fetchFriends() {
       try {

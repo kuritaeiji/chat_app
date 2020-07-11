@@ -1,6 +1,6 @@
 module Api::CookiesHelper
   def login(user)
-    cookies[:user_id] = { value: user.id, expired: 1.year.from_now }
+    cookies[:user_id] = user.id
   end
 
   def current_user

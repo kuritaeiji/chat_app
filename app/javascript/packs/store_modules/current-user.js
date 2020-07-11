@@ -14,13 +14,15 @@ export default {
   },
   mutations: {
     logIn(state, payload) {
-      state.currentUser = payload
-      Object.assign({}, payload)
+      Object.assign(state.currentUser, payload)
       state.isLoggedIn = true
     },
     logOut(state) {
       state.currentUser = {},
       state.isLoggedIn = false
+    },
+    updateCurrentUser(state, payload) {
+      Object.assign(state.currentUser, payload)
     }
   },
   actions: {
@@ -29,6 +31,9 @@ export default {
     },
     logOut(context) {
       context.commit('logOut')
+    },
+    updateCurrentUser(context, payload) {
+      context.commit('updateCurrentUser', payload)
     }
   }
 }

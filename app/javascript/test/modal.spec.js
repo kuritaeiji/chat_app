@@ -11,7 +11,7 @@ import BootstrapVue from 'bootstrap-vue'
 localVue.use(BootstrapVue)
 
 let propsMock = {
-  showUser: false,
+  showModal: false,
   user: {
     id: 2,
     name: 'example',

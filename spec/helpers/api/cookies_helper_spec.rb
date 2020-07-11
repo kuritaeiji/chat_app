@@ -24,7 +24,7 @@ RSpec.describe Api::CookiesHelper, type: :helper do
     end
   end
 
-  describe 'logged_in?(user)' do
+  describe 'logged_in?' do
     it 'ログインしている時trueを返す' do
       user = create(:user)
       login(user)
