@@ -2,6 +2,7 @@ ja:
   activerecord:
     models:
       user: ユーザー
+      group: グループ
     attributes:
       user:
         name: 名前
@@ -11,3 +12,6 @@ ja:
         description: 自己紹介
         avatar: プロフィール画像
         identifier_id: ユーザーID
+      group:
+        name: グループ名
+        avatar: アイコン画像
