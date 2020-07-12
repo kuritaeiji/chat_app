@@ -23,6 +23,11 @@ Rails.application.routes.draw do
         end
       end
     end
+    resources :groups, only: [:index, :show, :create, :update, :destroy] do
+      member do
+        delete :leave_the_group
+      end
+    end
   end
 
   resources :account_activations, only: [:new]

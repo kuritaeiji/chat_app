@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 2020_07_11_144642) do
   create_table "members", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "group_id"
-    t.datetime "last_read_time", default: "2020-07-11 14:53:37"
+    t.datetime "last_read_time", default: "2020-07-12 04:16:29"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["group_id"], name: "index_members_on_group_id"
