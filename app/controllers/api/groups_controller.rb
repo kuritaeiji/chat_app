@@ -1,5 +1,5 @@
 class Api::GroupsController < ApplicationController
-  protect_from_forgery except: [:index, :show, :create, :update, :destroy]
+  # protect_from_forgery except: [:index, :show, :create, :update, :destroy]
   before_action :logged_in_user
 
   def index
@@ -24,13 +24,19 @@ class Api::GroupsController < ApplicationController
     end
   end
 
-  def create
-    @group = Group.new(group_params)
-    if @group.save
-      @group.attach_image(params[:group][:avatar])
-      render json: { message: 'success' }
+  def create # 普通にグループを作る時は三人以上のグループのみをjs側で実装
+    other_user_id = params[:group][:user_ids].detect{ |user_id| user_id != current_user.id.to_s}
+    if params[:group][:user_ids].length == 2 && current_user.groups.length > 0 && current_user.groups.any? { |group| group.members.map(&:user_id).detect{ |user_id| current_user.id != user_id }.to_s == other_user_id }
+      group = current_user.groups.detect { |group| group.members.map(&:user_id).detect { |user_id| current_user.id != user_id }.to_s == other_user_id }
+      render json: { group_id: group.id } # ホーム画面から会話ボタンを押した時すでにグループがあるなら処理を終わらせ、まだないならグループを作る
     else
-      render 'error', formats: :json, handlers: 'jbuilder'
+      @group = Group.new(group_params)
+      if @group.save
+        @group.attach_image(params[:group][:avatar])
+        render json: { group_id: @group.id }
+      else
+        render 'error', formats: :json, handlers: 'jbuilder'
+      end
     end
   end
 

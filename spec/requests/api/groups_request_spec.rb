@@ -58,7 +58,7 @@ RSpec.describe "Api::Groups", type: :request do
 
       expect { post '/api/groups', { params: { group: group } } }.to change(Group, :count)
       json = JSON.parse(response.body)
-      expect(json['message']).to eq('success')
+      expect(json['group_id']).to eq(Group.last.id)
       expect(Group.last.members.length).to eq(2)
       expect(Group.last.avatar.attached?).to eq(true)
     end
@@ -69,6 +69,19 @@ RSpec.describe "Api::Groups", type: :request do
       expect { post '/api/groups', { params: { group: group } } }.not_to change(Group, :count)
       json = JSON.parse(response.body)
       expect(json['error_messages'][0]['message']).to eq('グループ名を入力してください')
+    end
+
+    it 'グループのメンバーが二人で既に同じグループが存在している時グループを新規作成しない' do
+      user = create(:user)
+      group = create(:group)
+      member = create(:member, user: user, group: group)
+      member2 = create(:member, user: @current_user, group: group)
+      group_params = { name: 'fffff', avatar: nil, user_ids: [@current_user.id, user.id]}
+
+      expect { post '/api/groups', { params: { group: group_params } } }.not_to change(Group, :count)
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json['group_id']).to eq(group.id)
     end
   end
 

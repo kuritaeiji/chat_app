@@ -31,7 +31,7 @@
           <b-col md="5" class="underline py-2"></b-col>
         </b-row>
         
-        <b-row v-for="(friend, index) in friends" :key="index" class="justify-content-center no-gutters user">
+        <b-row v-for="(friend, index) in friends" :key="index" class="justify-content-center no-gutters user" @click="openFriendModal(index)">
           <b-col md="3" class="underline no-gutters py-2">
             <img v-if="friend.avatar" :src="friend.avatar" :alt="friend.name">
             <img v-else :src="defaultAvatar" width="100px" height="100px" alt="default avatar">
@@ -51,6 +51,10 @@
     <div v-for="(user, index) in usersApplyingForFriends" :key="index">
       <Modal :showModal="showUsers[index]" @closeUserModal="closeUserModal(index)" :user="user" :defaultAvatar="defaultAvatar"></Modal>
     </div>
+
+    <div v-for="(friend, index) in friends" :key="friend.id">
+      <FriendModal :showModal="showFriends[index]" :friend="friends[index]" :defaultAvatar="defaultAvatar" @closeFriendModal="closeFriendModal(index)"></FriendModal>
+    </div>
   </div>
 </template>
 
@@ -60,11 +64,12 @@ import { client } from '../plugins/client'
 import defaultAvatar from '../images/default.jpg'
 import Links from '../components/Links.vue'
 import Modal from '../components/Modal.vue'
+import FriendModal from '../components/FriendModal'
 
 export default {
   name: 'Home',
   components: {
-    Links, Modal
+    Links, Modal, FriendModal
   },
   data() {
     return {
@@ -131,6 +136,12 @@ export default {
     },
     closeUserModal(index) {
       this.showUsers.splice(index, 1, false)
+    },
+    openFriendModal(index) {
+      this.showFriends.splice(index, 1, true)
+    },
+    closeFriendModal(index) {
+      this.showFriends.splice(index, 1, false)
     }
   }
 }
