@@ -9,19 +9,21 @@ import UsersEdit from './views/UsersEdit.vue'
 import UsersShow from './views/UsersShow.vue'
 import Groups from './views/Groups.vue'
 import Group from './views/Group.vue'
+import GroupsNew from './views/GroupsNew.vue'
 
 Vue.use(VueRouter)
 
 const router =  new VueRouter({
   mode: 'history',
   routes: [
-    { path: '/',                          component: Home,          name: 'Home',        meta: { isAuthLogIn: true }},
+    { path: '/',                          component: Home,          name: 'Home',        meta: { isAuthLogIn:  true }},
     { path: '/users/new',                 component: UsersNew,      name: 'UsersNew',    meta: { isAuthLogOut: true }},
-    { path: '/login',                     component: Login,         name: 'Login',       meta: { isAuthLogOut: true } },
-    { path: '/settings',                  component: Settings,      name: 'Settings',    meta: { isAuthLogIn: true }},
-    { path: '/settings/users/search',     component: UsersSearch,   name: 'UsersSearch', meta: { isAuthLogIn: true }},
-    { path: '/settings/users/edit',       component: UsersEdit,     name: 'UsersEdit',   meta: { isAuthLogIn: true }},
-    { path: '/settings/users/show',       component: UsersShow,     name: 'UsersShow',   meta: { isAuthLogIn: true }},
+    { path: '/login',                     component: Login,         name: 'Login',       meta: { isAuthLogOut: true }},
+    { path: '/settings',                  component: Settings,      name: 'Settings',    meta: { isAuthLogIn:  true }},
+    { path: '/settings/users/search',     component: UsersSearch,   name: 'UsersSearch', meta: { isAuthLogIn:  true }},
+    { path: '/settings/users/edit',       component: UsersEdit,     name: 'UsersEdit',   meta: { isAuthLogIn:  true }},
+    { path: '/settings/users/show',       component: UsersShow,     name: 'UsersShow',   meta: { isAuthLogIn:  true }},
+    { path: '/settings/groups/new',       component: GroupsNew,     name: 'GroupsNew',   meta: { isAuthLogIn:  true }},
     {
       path: '/groups',
       component: Groups,
