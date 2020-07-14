@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   get '/settings/users/edit', to: 'home#index'
   get '/settings/users/show', to: 'home#index'
   get '/settings/groups/new', to: 'home#index'
+  get '/settings/groups/edit', to: 'home#index'
   get '/groups', to: 'home#index'
-  get '/groups/:group_id', to: 'home#index'
+  get '/groups/:groupId', to: 'home#index'
   
   namespace :api do
     resources :cookies, only: [:create, :destroy]

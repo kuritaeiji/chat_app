@@ -10,6 +10,7 @@ import UsersShow from './views/UsersShow.vue'
 import Groups from './views/Groups.vue'
 import Group from './views/Group.vue'
 import GroupsNew from './views/GroupsNew.vue'
+import GroupsEdit from './views/GroupsEdit.vue'
 
 Vue.use(VueRouter)
 
@@ -24,14 +25,14 @@ const router =  new VueRouter({
     { path: '/settings/users/edit',       component: UsersEdit,     name: 'UsersEdit',   meta: { isAuthLogIn:  true }},
     { path: '/settings/users/show',       component: UsersShow,     name: 'UsersShow',   meta: { isAuthLogIn:  true }},
     { path: '/settings/groups/new',       component: GroupsNew,     name: 'GroupsNew',   meta: { isAuthLogIn:  true }},
+    { path: '/settings/groups/edit',      component: GroupsEdit,    name: 'GroupsEdit',  meta: { isAuthLogIn:  true }},
     {
       path: '/groups',
       component: Groups,
-      name: Groups,
       meta: { isAuthLogIn: true },
       children: [
         {
-          path: ':group_id',
+          path: ':groupId',
           component: Group,
           name: 'Group',
           props: true,

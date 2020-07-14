@@ -5,13 +5,13 @@
 
       <b-row class="no-gutters">
         <b-col cols="6" sm="3" class="p-3 groups">
-          <div v-for="(group, index) in groups" :key="index" class="d-flex flex-row py-2 group" @click="redirectToGroup(group.id)" :id="group.name">
+          <router-link :to="`/groups/${group.id}`" tag="div" v-for="(group, index) in groups" :key="index" class="d-flex flex-row py-2 group" :id="group.name">
             <div class="image-column">
               <img v-if="group.avatar" :src="group.avatar" class="img-fluid">
               <img v-else :src="defaultAvatar" class="img-fluid">
             </div>
             <div class="px-3 group-name">{{ group.name | trim(12) }}</div>
-          </div>
+          </router-link>
         </b-col>
 
         <b-col cols="6" sm="9">
@@ -55,9 +55,6 @@ export default {
       } catch (error) {
         console.log(error)
       }
-    },
-    redirectToGroup(group_id) {
-      this.$router.push(`/groups/${group_id}`)
     }
   }
 }

@@ -33,24 +33,4 @@ describe('Groups.vue', () => {
 
     expect(wrapper.vm.groups).toStrictEqual(groups)
   })
-
-  it('グループをクリックするとトーク画面に遷移', async () => {
-    let router = {
-      push: jest.fn()
-    }
-
-    let wrapper = mount(Groups, {
-      localVue,
-      mocks: {
-        $router: router
-      },
-      stubs: {
-        Links: Stub
-      }
-    })
-    await flushPromises()
-
-    wrapper.find('#example').trigger('click')
-    expect(router.push).toHaveBeenCalled()
-  })
 })
