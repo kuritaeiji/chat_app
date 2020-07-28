@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_06_092531) do
+ActiveRecord::Schema.define(version: 2020_07_11_144642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,22 @@ ActiveRecord::Schema.define(version: 2020_07_06_092531) do
     t.index ["requesting_user_id"], name: "index_friendships_on_requesting_user_id"
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "members", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "group_id"
+    t.datetime "last_read_time", default: "2020-07-12 11:44:56"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["group_id"], name: "index_members_on_group_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -63,4 +79,6 @@ ActiveRecord::Schema.define(version: 2020_07_06_092531) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "friendships", "users", column: "requested_user_id"
   add_foreign_key "friendships", "users", column: "requesting_user_id"
+  add_foreign_key "members", "groups"
+  add_foreign_key "members", "users"
 end

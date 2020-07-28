@@ -13,11 +13,14 @@
       ".+\\.(css|styl|less|sass|scss|png|jpg|svg|ttf|woff|woff2)$": "jest-transform-stub"
     },
     "transformIgnorePatterns": [
-      "/node_modules/(?!vee-validate/dist/rules)" 
+      "/node_modules/(?!vee-validate/dist/rules)"
     ]
   },
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/vue-fontawesome": "^0.1.10",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
@@ -32,6 +35,8 @@
     "flush-promises": "^1.0.2",
     "jest": "^26.1.0",
     "jest-transform-stub": "^2.0.0",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
     "turbolinks": "^5.2.0",
     "vee-validate": "^3.3.7",
     "vue": "^2.6.11",

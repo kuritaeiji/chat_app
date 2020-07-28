@@ -4,9 +4,9 @@
       <div class="card border-0">
         <img class="card-img-top" :src="image">
         <div class="card-body">
-          <h3 class="card-title font-weight-bold">{{ user.name }}</h3>
-          <p class="card-text">{{ user.description }}</p>
-          <b-button variant="primary" @click.stop="approve" id="approve-button">承認</b-button>
+          <h3 class="card-title font-weight-bold">{{ friend.name }}</h3>
+          <p class="card-text">{{ friend.description }}</p>
+          <b-button variant="primary" @click.stop="talkWithFriend" id="talk-button">トーク</b-button>
         </div>
       </div>
     </div>
@@ -18,10 +18,10 @@ import { client } from '../plugins/client'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Modal',
+  name: 'FriendModal',
   props: {
     showModal: Boolean,
-    user: Object,
+    friend: Object,
     defaultAvatar: String
   },
   data() {
@@ -32,20 +32,21 @@ export default {
   computed: mapGetters('CurrentUser', ['getCurrentUser']),
   methods: {
     closeModal() {
-      this.$emit('closeUserModal')
+      this.$emit('closeFriendModal')
     },
     setImage() {
-      this.image = this.user.avatar ? this.user.avatar : this.defaultAvatar
+      this.image = this.friend.avatar ? this.friend.avatar : this.defaultAvatar
     },
-    async approve() {
+    async talkWithFriend() {
       try {
-        const response = await client.put(`/api/users/${this.getCurrentUser.id}/friendships/approve.json`, { requesting_user_id: this.user.id })
-        this.$toasted.show('フレンド承認しました。', {
-          theme: "bubble", 
-          position: "top-right", 
-          duration : 5000
-        })
-        this.$router.go({ path: this.$router.currentRoute.path, force: true })
+        let group = {
+          name: `${this.getCurrentUser.name} ${this.friend.name}`,
+          avatar: null,
+          user_ids: [`${this.getCurrentUser.id}`, `${this.friend.id}`]
+        }
+        const response = await client.post('/api/groups.json', { group: group })
+        let groupId = response.data.group_id
+        this.$router.push(`/groups/${groupId}`)
       } catch (error) {
         console.log(error)
       }

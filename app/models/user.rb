@@ -7,6 +7,9 @@ class User < ApplicationRecord
   has_many :requested_friendships, class_name: 'Friendship', foreign_key: 'requested_user_id', dependent: :destroy # 友達申請された側のユーザーの中間テーブル
   has_many :requested_friends, through: :requested_friendships, source: :requesting_user # 友達申請されて友達になった友達
 
+  has_many :members, dependent: :destroy
+  has_many :groups, through: :members
+
   validates :name, presence: true, length: { maximum: 20 }
   validates :email, presence: true, uniqueness: true, format: { with: /\A\S+@\S+\.\S+\z/, message: 'は正しいアドレスを入力してください'}
   validates :description, length: { maximum: 100 }

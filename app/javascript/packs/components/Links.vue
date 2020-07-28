@@ -6,7 +6,7 @@
       </router-link>
     </b-col>
     <b-col class="link">
-      <router-link to="/" tag="div" active-class="current" class="text-center p-3">
+      <router-link to="/groups" tag="div" active-class="current" class="text-center p-3">
         トーク
       </router-link>
     </b-col>

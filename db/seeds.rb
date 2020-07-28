@@ -35,3 +35,11 @@ end
 not_approved_users.each do |u|
   u.apply_for_friend_to(user)
 end
+
+5.times do |n|
+  user_ids = [user.id.to_s, (n + 2).to_s]
+  Group.create!(
+    name: "#{n}example_group",
+    user_ids: user_ids
+  )
+end

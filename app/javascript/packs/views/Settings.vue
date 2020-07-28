@@ -27,6 +27,13 @@
       </b-row>
       <b-row>
         <b-col class="d-none d-md-block" md="3"></b-col>
+        <b-col class="setting p-3">
+          <router-link to="/settings/groups/new" tag="div">グループの追加</router-link>
+        </b-col>
+        <b-col class="d-none d-md-block" md="3"></b-col>
+      </b-row>
+      <b-row>
+        <b-col class="d-none d-md-block" md="3"></b-col>
         <b-col @click="signOut" class="setting p-3" id="log-out">ログアウト</b-col>
         <b-col class="d-none d-md-block" md="3"></b-col>
       </b-row>

@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   get '/settings/users/search', to: 'home#index'
   get '/settings/users/edit', to: 'home#index'
   get '/settings/users/show', to: 'home#index'
+  get '/settings/groups/new', to: 'home#index'
+  get '/settings/groups/edit/:groupId', to: 'home#index'
+  get '/groups', to: 'home#index'
+  get '/groups/:groupId', to: 'home#index'
   
   namespace :api do
     resources :cookies, only: [:create, :destroy]
@@ -21,6 +25,12 @@ Rails.application.routes.draw do
           put :approve
           delete :destroy_friend
         end
+      end
+    end
+    resources :groups, only: [:index, :show, :create, :update, :destroy] do
+      member do
+        delete :leave_the_group
+        get :friends_and_members
       end
     end
   end
