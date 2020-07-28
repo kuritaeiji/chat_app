@@ -94,7 +94,7 @@ RSpec.describe "Api::Groups", type: :request do
 
       expect { put "/api/groups/#{group.id}", params: { group: group_params } }.to change(Member, :count)
       json = JSON.parse(response.body)
-      expect(json['message']).to eq('success')
+      expect(json['group_id']).to eq(group.id)
       expect(Group.last.name).to eq(group_params[:name])
     end
 
@@ -131,6 +131,20 @@ RSpec.describe "Api::Groups", type: :request do
       json = JSON.parse(response.body)
       expect(response.status).to eq(200)
       expect(json['message']).to eq('success')
+    end
+  end
+
+  describe 'friends_and_members' do
+    it 'カレントユーザーのフレンドとグループのメンバーを取得する' do
+      create_list(:friendship, 10, requesting_user: @current_user)
+      group = create(:group)
+      create_list(:member, 10, group: group)
+      create(:member, group: group, user: @current_user)
+
+      get "/api/groups/#{group.id}/friends_and_members"
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json.length).to eq(20)
     end
   end
 end

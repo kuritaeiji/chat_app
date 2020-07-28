@@ -10,4 +10,8 @@ class Group < ApplicationRecord
   validates :avatar, image_extension: true
 
   include Imageable
+
+  def return_user_ids
+    members.map(&:user_id)
+  end
 end

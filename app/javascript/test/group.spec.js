@@ -26,6 +26,7 @@ describe('Group.vue', () => {
       groupId: '1'
     }
     mockAxios.onGet(`/api/groups/${propsData.groupId}`).reply('200', { group: group })
+    mockAxios.onDelete(`/api/groups/${propsData.groupId}`).reply('200')
     router = new VueRouter({
       routes: [
         { 
@@ -56,5 +57,25 @@ describe('Group.vue', () => {
     expect(wrapper.vm.group).toStrictEqual(group)
   })
 
-  
+  it('グループを削除', async () => {
+    let $router = { push: jest.fn() }
+    let $toasted = { show: jest.fn() }
+
+    let wrapper = mount(Group, {
+      localVue, propsData, router,
+      stubs: {
+        Groups: Stub,
+        FontAwesomeIcon: Stub
+      },
+      mocks: {
+        $toasted, $router
+      }
+    })
+
+    wrapper.find('#delete-button').trigger('click')
+    await flushPromises()
+
+    expect($toasted.show).toHaveBeenCalled()
+    expect($router.push).toHaveBeenCalled()
+  })
 })

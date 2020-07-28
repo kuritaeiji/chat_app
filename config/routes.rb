@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get '/settings/users/edit', to: 'home#index'
   get '/settings/users/show', to: 'home#index'
   get '/settings/groups/new', to: 'home#index'
-  get '/settings/groups/edit', to: 'home#index'
+  get '/settings/groups/edit/:groupId', to: 'home#index'
   get '/groups', to: 'home#index'
   get '/groups/:groupId', to: 'home#index'
   
@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :groups, only: [:index, :show, :create, :update, :destroy] do
       member do
         delete :leave_the_group
+        get :friends_and_members
       end
     end
   end

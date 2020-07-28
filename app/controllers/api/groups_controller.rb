@@ -1,5 +1,4 @@
 class Api::GroupsController < ApplicationController
-  # protect_from_forgery except: [:index, :show, :create, :update, :destroy]
   before_action :logged_in_user
 
   def index
@@ -48,7 +47,7 @@ class Api::GroupsController < ApplicationController
   def update
     @group = Group.find_by(id: params[:id])
     if @group.update(group_params) && @group.attach_image(params[:group][:avatar])
-      render json: { message: 'success' }
+      render json: { group_id: @group.id }
     else
       render 'error', formats: :json, handlers: 'jbuilder'
     end
@@ -58,6 +57,18 @@ class Api::GroupsController < ApplicationController
     member = current_user.members.detect { |member| member.group_id = params[:id] }
     member.destroy
     render json: { message: 'success' }
+  end
+
+  def friends_and_members
+    friends = current_user.friends
+    group = Group.find_by(id: params[:id])
+    members = group.users
+    users = friends | members # フレンドとメンバーで共通のユーザーは上書き
+    @users = users.select { |user| user != current_user } # カレントユーザーは取り除く
+    @users.each do |user|
+      user.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if user.avatar.attached?
+    end
+    render 'friends_and_members', formats: :json, handlers: 'jbuilder'
   end
 
   private

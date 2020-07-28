@@ -2,9 +2,13 @@
   <div id="group">
     <div class="d-flex justify-content-between p-3 underline">
       <div class="font-weight-bold group-name">{{ group.name }}</div>
-      <router-link tag="div" to="/settings/groups/edit">
-        <font-awesome-icon icon="cog" size="3x" class="cog" />
-      </router-link>
+      <div class="dropdown dropleft">
+        <font-awesome-icon icon="cog" size="3x" class="cog dropdown-toggle" data-toggle="dropdown" />
+        <div class="dropdown-menu" aria-labelledby="dropdown1">
+          <router-link tag="a" class="dropdown-item" :to="`/settings/groups/edit/${groupId}`">グループの編集</router-link>
+          <div id="delete-button" class="dropdown-item" @click="deleteGroup">グループの削除</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +31,19 @@ export default {
       try {
         const response = await client.get(`/api/groups/${this.groupId}`)
         this.group = Object.assign({}, this.group, response.data.group)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async deleteGroup() {
+      try {
+        const response = await client.delete(`/api/groups/${this.groupId}`)
+        this.$toasted.show('グループを削除しました。', {
+          theme: "bubble", 
+          position: "top-right", 
+          duration : 5000
+        })
+        this.$router.push('/')
       } catch (error) {
         console.log(error)
       }

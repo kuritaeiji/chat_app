@@ -5,7 +5,7 @@
     </b-container>
 
     <b-container>
-      <h2 class="my-4">グループの追加</h2>
+      <h2 class="my-4">グループの作成</h2>
       <ValidationObserver ref="observer">
         <form @submit.prevent="createGroup">
           <Error :errorMessages="errorMessages"></Error>
