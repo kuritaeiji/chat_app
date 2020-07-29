@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :groups, through: :members
 
+  has_many :messages, dependent: :destroy
+
   validates :name, presence: true, length: { maximum: 20 }
   validates :email, presence: true, uniqueness: true, format: { with: /\A\S+@\S+\.\S+\z/, message: 'は正しいアドレスを入力してください'}
   validates :description, length: { maximum: 100 }

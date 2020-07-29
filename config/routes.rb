@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         delete :leave_the_group
         get :friends_and_members
       end
+      resources :messages, only: [:index, :create]
     end
   end
 
