@@ -1,5 +1,6 @@
 class Group < ApplicationRecord
   attr_accessor :avatar_url
+  attr_accessor :unread_messages_count_by_group
 
   has_many :members, dependent: :destroy
   has_many :users, through: :members
@@ -15,5 +16,10 @@ class Group < ApplicationRecord
 
   def return_user_ids
     members.map(&:user_id)
+  end
+
+  def set_unread_messages_count_by_group(user)
+    last_read_time = Member.find_by(user_id: user.id, group_id: id).last_read_time
+    self.unread_messages_count_by_group = Message.where(group_id: id).where("created_at > (?) AND NOT user_id = ?", last_read_time, user.id).count
   end
 end

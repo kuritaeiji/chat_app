@@ -74,6 +74,15 @@ class Api::MessagesController < ApplicationController
     end
   end
 
+  def return_unread_messages_count
+    groups = current_user.groups
+    unread_messages_count = groups.inject(0) do |result, group|
+      group.set_unread_messages_count_by_group(current_user)
+      result + group.unread_messages_count_by_group
+    end
+    render json: { unread_messages_count: unread_messages_count }
+  end
+
   private
     def message_params
       params.require(:message).permit(:content)

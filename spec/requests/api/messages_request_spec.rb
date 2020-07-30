@@ -116,4 +116,16 @@ RSpec.describe "Api::Messages", type: :request do
       expect(json['error_messages'][0]['message']).to eq('メッセージは200文字以内で入力してください')
     end
   end
+
+  describe 'return_unread_messages_count' do
+    it '未読メッセージ数を返す' do
+      create_list(:message, 5, group: @group, user: @current_user)
+      create_list(:message, 10, group: @group, user: @user_a)
+
+      get '/api/messages/return_unread_messages_count'
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json['unread_messages_count']).to eq(10)
+    end
+  end
 end

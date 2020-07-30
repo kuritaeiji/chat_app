@@ -39,6 +39,11 @@ Rails.application.routes.draw do
         end
       end
     end
+    resources :messages do
+      collection do
+        get :return_unread_messages_count
+      end
+    end
   end
 
   resources :account_activations, only: [:new]

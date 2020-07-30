@@ -17,6 +17,7 @@ class Api::GroupsController < ApplicationController
         end
       end
       @groups.each do |group|
+        group.set_unread_messages_count_by_group(current_user)
         group.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if group.avatar.attached?
       end
       render 'index', formats: :json, handlers: 'jbuilder'
