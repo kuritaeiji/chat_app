@@ -32,7 +32,12 @@ Rails.application.routes.draw do
         delete :leave_the_group
         get :friends_and_members
       end
-      resources :messages, only: [:index, :create]
+      resources :messages, only: [:index, :create] do
+        collection do
+          get :return_new_messages
+          get :return_older_messages
+        end
+      end
     end
   end
 

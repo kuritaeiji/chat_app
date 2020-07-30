@@ -4,18 +4,57 @@ class Api::MessagesController < ApplicationController
 
   def index
     group = Group.find_by(id: params[:group_id])
-    last_message_id = params[:last_message_id].to_i
     # カレントユーザーの閲覧履歴を更新
     member = group.members.where("user_id = ?", current_user.id)[0]
     member.update_attribute(:last_read_time, Time.zone.now)
-    @messages = group.messages.includes(:user).where("id > ?", last_message_id)
+
+    @messages = group.messages.includes(:user).last(50)
+
     @messages.each do |message|
       message.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if message.avatar.attached?
     end
     if !@messages.empty?
+      # 50以上のメッセージが存在するか
+      @older_messages_present = !group.messages.where("id < ?", @messages[0].id).empty? ? true : false
       render 'index', formats: :json, handlers: 'jbuilder'
     else
       render json: { message: '新規メッセージはありません' }
+    end
+  end
+
+  def return_new_messages #setIntervalで使う
+    group = Group.find_by(id: params[:group_id])
+    last_message_id = params[:last_message_id].to_i
+    # カレントユーザーの閲覧履歴を更新
+    member = group.members.where("user_id = ?", current_user.id)[0]
+    member.update_attribute(:last_read_time, Time.zone.now)
+
+    @messages = group.messages.includes(:user).where("id > (?) AND NOT user_id = ?", last_message_id, current_user.id)
+    @messages.each do |message|
+      message.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if message.avatar.attached?
+    end
+    if !@messages.empty?
+      render 'return_new_messages', formats: :json, handlers: 'jbuilder'
+    else
+      render json: { message: '新規メッセージはありません' }
+    end
+  end
+
+  def return_older_messages #さらに表示で使う
+    group = Group.find_by(id: params[:group_id])
+    first_message_id = params[:first_message_id].to_i
+
+    @messages = group.messages.includes(:user).where("id < ?", first_message_id).last(50)
+
+    @messages.each do |message|
+      message.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if message.avatar.attached?
+    end
+    if !@messages.empty?
+      # さらに古いメッセージが存在するか
+      @older_messages_present = !group.messages.where("id < ?", @messages[0].id).empty? ? true : false
+      render 'index', formats: :json, handlers: 'jbuilder'
+    else
+      render json: { message: 'メッセージはありません' }
     end
   end
 

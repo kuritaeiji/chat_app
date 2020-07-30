@@ -12,6 +12,4 @@ json.array! @messages do |message|
     json.identifier_id message.user.identifier_id
     json.avatar        message.user.avatar_url
   end
-
-  json.older_messages_present @older_messages_present
 end

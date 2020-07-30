@@ -14,20 +14,87 @@ RSpec.describe "Api::Messages", type: :request do
 
   describe 'index' do
     it 'メッセージを返す' do
-      create_list(:message, 5, group: @group, user: @user_a)
-      create_list(:message, 5, group: @group, user: @current_user)
+      create_list(:message, 50, group: @group, user: @user_a)
+      create_list(:message, 50, group: @group, user: @current_user)
 
-      get "/api/groups/#{@group.id}/messages", params: { last_read_id: '0' }
+      get "/api/groups/#{@group.id}/messages"
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json.length).to eq(50)
+      expect(json[0]['older_messages_present']).to eq(true)
+    end
+
+    it '50以上のメッセージがない時older_messages_presentはfalse' do
+      create_list(:message, 10, group: @group, user: @current_user)
+      get "/api/groups/#{@group.id}/messages"
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json.length).to eq(10)
+      expect(json[0]['older_messages_present']).to eq(false)
+    end
+
+    it 'メッセージがない時' do
+      get "/api/groups/#{@group.id}/messages"
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json['message']).to eq('新規メッセージはありません')
+    end
+  end
+
+  describe 'return_new_messages' do
+    it 'メッセージが存在する時' do
+      message = create(:message, group: @group, user: @user_a)
+      create_list(:message, 10, group: @group, user: @user_a)
+      get "/api/groups/#{@group.id}/messages/return_new_messages", params: { last_message_id: message.id.to_s }
       json = JSON.parse(response.body)
       expect(response.status).to eq(200)
       expect(json.length).to eq(10)
     end
 
-    it 'メッセージがない時' do
-      get "/api/groups/#{@group.id}/messages", params: { last_read_id: '0' }
+    it 'カレントユーザーのメッセージは返さない' do
+      message = create(:message, group: @group, user: @user_a)
+      create(:message, group: @group, user: @current_user)
+      get "/api/groups/#{@group.id}/messages/return_new_messages", params: { last_message_id: message.id.to_s }
       json = JSON.parse(response.body)
       expect(response.status).to eq(200)
       expect(json['message']).to eq('新規メッセージはありません')
+    end
+
+    it 'メッセージが存在しない時' do
+      get "/api/groups/#{@group.id}/messages/return_new_messages", params: { last_message_id: '0' }
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json['message']).to eq('新規メッセージはありません')
+    end
+  end
+
+  describe 'return_older_messages' do
+    it 'メッセージが存在しさらに古いメッセージも存在する時' do
+      create_list(:message, 60, group: @group, user: @user_a)
+      message = create(:message, group: @group, user: @user_a)
+      get "/api/groups/#{@group.id}/messages/return_older_messages", params: { first_message_id: message.id.to_s }
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json.length).to eq(50)
+      expect(json[0]['older_messages_present']).to eq(true)
+    end
+
+    it 'メッセージは存在するがさらに古いメッセージは存在しない時older_messages_presentはfalse' do
+      create_list(:message, 2, group: @group, user: @user_a)
+      message = create(:message, group: @group, user: @user_a)
+      get "/api/groups/#{@group.id}/messages/return_older_messages", params: { first_message_id: message.id.to_s }
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json.length).to eq(2)
+      expect(json[0]['older_messages_present']).to eq(false)
+    end
+
+    it 'メッセージが存在しない時' do
+      message = create(:message, group: @group, user: @user_a)
+      get "/api/groups/#{@group.id}/messages/return_older_messages", params: { first_message_id: message.id.to_s }
+      json = JSON.parse(response.body)
+      expect(response.status).to eq(200)
+      expect(json['message']).to eq('メッセージはありません')
     end
   end
 

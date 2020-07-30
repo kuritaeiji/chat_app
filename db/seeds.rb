@@ -47,6 +47,8 @@ end
 groups = Group.all.take(5)
 groups.each do |group|
   group.users.each do |user|
-    user.messages.create(content: 'example', group_id: group.id)
+    100.times do
+      user.messages.create(content: 'example', group_id: group.id)
+    end
   end
 end
