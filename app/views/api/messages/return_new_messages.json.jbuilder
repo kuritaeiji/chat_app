@@ -1,8 +1,9 @@
 json.array! @messages do |message|
   json.set! :message do
-    json.id      message.id
-    json.content message.content
-    json.avatar  message.avatar_url
+    json.id           message.id
+    json.content      message.content
+    json.avatar       message.avatar_url
+    json.created_at   message.created_at_to_string
   end
 
   json.set! :user do

@@ -11,7 +11,8 @@ class Api::MessagesController < ApplicationController
     @messages = group.messages.includes(:user).last(50)
 
     @messages.each do |message|
-      message.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if message.avatar.attached?
+      message.convert_image_to_url({}) if message.avatar.attached?
+      message.user.convert_image_to_url(variant: { combine_options: {resize:"50x50^",crop:"50x50+0+0",gravity: :center} }) if message.user.avatar.attached?
     end
     if !@messages.empty?
       # 50以上のメッセージが存在するか
@@ -31,7 +32,8 @@ class Api::MessagesController < ApplicationController
 
     @messages = group.messages.includes(:user).where("id > (?) AND NOT user_id = ?", last_message_id, current_user.id)
     @messages.each do |message|
-      message.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if message.avatar.attached?
+      message.convert_image_to_url({}) if message.avatar.attached?
+      message.user.convert_image_to_url(variant: { combine_options: {resize:"50x50^",crop:"50x50+0+0",gravity: :center} }) if message.user.avatar.attached?
     end
     if !@messages.empty?
       render 'return_new_messages', formats: :json, handlers: 'jbuilder'
@@ -47,7 +49,8 @@ class Api::MessagesController < ApplicationController
     @messages = group.messages.includes(:user).where("id < ?", first_message_id).last(50)
 
     @messages.each do |message|
-      message.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if message.avatar.attached?
+      message.convert_image_to_url({}) if message.avatar.attached?
+      message.user.convert_image_to_url(variant: { combine_options: {resize:"50x50^",crop:"50x50+0+0",gravity: :center} }) if message.user.avatar.attached?
     end
     if !@messages.empty?
       # さらに古いメッセージが存在するか

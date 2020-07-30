@@ -84,5 +84,7 @@ export default {
 
 .groups {
   border-right: 1px solid #e6ecf0;
+  height: calc(100vh - 66px);
+  overflow: scroll;
 }
 </style>

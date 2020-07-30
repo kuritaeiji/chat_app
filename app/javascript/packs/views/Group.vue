@@ -11,12 +11,41 @@
       </div>
     </div>
 
-    <div v-if="messagesAndUsers.length > 0">
+    <div v-if="messagesAndUsers.length > 0" class="p-3 messages">
       <div v-for="(messageAndUser, index) in messagesAndUsers" :key="index">
-        <div v-if="index == 0 && olderMessagesPresent" @click="fetchOlderMessagesAndUsers">
+        <div v-if="index == 0 && olderMessagesPresent" @click="fetchOlderMessagesAndUsers" class="w-100 py-3 text-center message more-show">
           さらに表示
         </div>
-        {{ messageAndUser.message.content }}
+
+        <div class="d-flex justify-content-start w-100 p-3 message" id="content">
+          <div>
+            <img :src="messageAndUser.user.avatar" v-if="messageAndUser.message.avatar">
+            <img :src="defaultAvatar" v-else width="50px" height="50px">
+          </div>
+          <div class="pl-2">
+            <div class="name">
+              {{ messageAndUser.user.name }} <span class="created-at">{{ messageAndUser.message.created_at }}</span>
+            </div>
+            <div class="content">
+              {{ messageAndUser.message.content }}
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-start w-100 p-3 message" id="avatar" v-if="messageAndUser.message.avatar">
+          <div>
+            <img :src="messageAndUser.user.avatar" v-if="messageAndUser.message.avatar">
+            <img :src="defaultAvatar" v-else width="50px" height="50px">
+          </div>
+          <div class="pl-2">
+            <div class="name">
+              {{ messageAndUser.user.name }} <span class="created-at">{{ messageAndUser.message.created_at }}</span>
+            </div>
+            <div class="avatar">
+              <img :src="messageAndUser.message.avatar" class="message-avatar">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -47,6 +76,7 @@
 
 <script>
 import { client } from '../plugins/client'
+import defaultAvatar from '../images/default.jpg'
 
 export default {
   name: 'Group',
@@ -63,7 +93,8 @@ export default {
       messagesAndUsers: [],
       lastMessagesId: 0,
       firstMessageId: 0,
-      olderMessagesPresent: false
+      olderMessagesPresent: false,
+      defaultAvatar: defaultAvatar
     }
   },
   methods: {
@@ -156,20 +187,18 @@ export default {
       this.message = Object.assign({}, { avatar: null, content: '' })
     }
   },
-  mounted() {
+  async mounted() {
     this.fetchGroup(),
-    this.fetchMessagesAndUsers()
-  },
-  watch: {
-    '$route': ['resetData', 'fetchGroup', 'fetchMessagesAndUsers']
-  },
-  created() {
+    await this.fetchMessagesAndUsers()
     let that = this
     this.timer = setInterval(() => {
       that.fetchNewMessagesAndUsers()
     }, 3000)
   },
-  destroyed() {
+  watch: {
+    '$route': ['resetData', 'fetchGroup', 'fetchMessagesAndUsers']
+  },
+  beforeDestroy() {
     clearInterval(this.timer)
   }
 }
@@ -204,5 +233,45 @@ export default {
 
 .underline {
   border-bottom: 1px solid #e6ecf0;
+}
+
+.messages {
+  height: calc(100vh - 66px - 108px - 74px);
+  overflow: scroll;
+}
+
+.message {
+  border-bottom: 1px solid #e6ecf0;
+}
+
+.message:hover {
+  background-color: #f5f8fa;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.created-at {
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.content {
+  font-size: 20px;
+}
+
+.message-avatar {
+  max-width: 80%;
+}
+
+.more-show {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.more-show:hover {
+  cursor: pointer;
 }
 </style>
