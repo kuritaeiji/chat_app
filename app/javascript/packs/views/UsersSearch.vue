@@ -9,10 +9,9 @@
 
       <form @submit.prevent="searchUser" class="mb-5">
         <Error :errorMessages="errorMessages"></Error>
-        <ValidationProvider ref="provider" rules="required|max: 20|alpha_num" v-slot="{ errors }" name="ユーザーID">
+        <ValidationProvider ref="provider" rules="required|max: 20|alpha_num">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="ユーザーID" v-model="identifierId">
-            <p v-show="errors[0]">{{ errors[0] }}</p>
             <div class="input-group-append">
               <b-button type="submit" variant="primary">検索</b-button>
             </div>
