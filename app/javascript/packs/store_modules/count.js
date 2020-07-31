@@ -4,22 +4,25 @@ export default {
   namespaced: true,
   state: {
     usersCountApplyingForFriends: 0,
-    notReadMessagesCount: 0
+    unreadMessagesCount: 0
   },
   getters: {
     getUsersCountApplyingForFriends(state) {
       return state.usersCountApplyingForFriends
     },
-    getNotReadMessagesCount(state) {
-      return state.notReadMessagesCount
+    getUnreadMessagesCount(state) {
+      return state.unreadMessagesCount
     }
   },
   mutations: {
     setUsersCountApplyingForFriends(state, payload) {
       state.usersCountApplyingForFriends = payload
     },
-    setnotReadMessagesCount(state, payload) {
-      state.notReadMessagesCount = payload
+    setUnreadMessagesCount(state, payload) {
+      state.unreadMessagesCount = payload
+    },
+    updateUnreadMessagesCount(state, payload) {
+      state.unreadMessagesCount -= payload
     }
   },
   actions: {
@@ -31,12 +34,16 @@ export default {
         console.log(error)
       }
     },
-    async fetchNotReadMessagesCount(context, payload) {
+    async fetchUnreadMessagesCount(context) {
       try {
-
+        const response = await client.get('/api/messages/return_unread_messages_count')
+        context.commit('setUnreadMessagesCount', response.data.unread_messages_count)
       } catch (error) {
-        
+        console.log(error)
       }
+    },
+    updateUnreadMessagesCount(context, payload) {
+      context.commit('updateUnreadMessagesCount', payload)
     }
   }
 }

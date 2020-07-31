@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <b-container>
-      <div v-if="!getIsLoggedIn">
-        <router-link to="/users/new">登録</router-link>
-        <router-link to="/login">ログイン</router-link>
-      </div>
-    </b-container>
     <router-view />
   </div>
 </template>

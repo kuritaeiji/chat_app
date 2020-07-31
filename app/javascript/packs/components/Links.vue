@@ -7,7 +7,7 @@
     </b-col>
     <b-col class="link">
       <router-link to="/groups" tag="div" active-class="current" class="text-center p-3">
-        トーク
+        トーク <span v-if="getUnreadMessagesCount !== 0">{{ getUnreadMessagesCount }}</span>
       </router-link>
     </b-col>
     <b-col class="link">
@@ -24,11 +24,11 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Link',
   computed: {
-    ...mapGetters('Count', ['getUsersCountApplyingForFriends', 'getNotReadMessagesCount']),
+    ...mapGetters('Count', ['getUsersCountApplyingForFriends', 'getUnreadMessagesCount']),
     ...mapGetters('CurrentUser', ['getCurrentUser'])
   },
   methods: {
-    ...mapActions('Count', ['fetchUsersCountApplyingForFriends', 'fetchNotReadMessagesCount']),
+    ...mapActions('Count', ['fetchUsersCountApplyingForFriends', 'fetchUnreadMessagesCount']),
     getCookie() {
       return document.cookie.split('; ').find((cookie) => cookie.startsWith('user_id')).split('=')[1]
     }
@@ -36,7 +36,7 @@ export default {
   created() {
     let that = this
     this.timer = setInterval(() => {
-      // that.fetchNotReadMessagesCount(that.currentUserId)
+      that.fetchUnreadMessagesCount()
     }, 5000)
   },
   beforeDestroy() {
@@ -44,6 +44,7 @@ export default {
   },
   mounted() {
     this.fetchUsersCountApplyingForFriends(this.getCookie())
+    this.fetchUnreadMessagesCount()
   }
 }
 </script>

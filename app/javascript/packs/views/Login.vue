@@ -1,6 +1,6 @@
 <template>
   <b-container id="Login" class="my-3">
-    <h2 class="text-center">ログイン</h2>
+    <h2 class="text-center">ログイン<span class="test-user">（既にテストユーザーのログイン情報が入力されています）</span></h2>
     <ValidationObserver ref="observer">
       <form @submit.prevent="login">
         <Error :errorMessages="errorMessages"></Error>
@@ -20,8 +20,9 @@
           </b-form-group>
         </ValidationProvider>
 
-        <div class="text-center">
+        <div class="d-flex justify-content-center">
           <b-button type="submit" variant="primary">ログイン</b-button>
+          <router-link to="/users/new" class="pl-3">新規登録</router-link>
         </div>
       </form>
     </ValidationObserver>
@@ -41,8 +42,8 @@ export default({
   data() {
     return {
       cookie: {
-        email: '',
-        password: ''
+        email: 'example@example.com',
+        password: 'example'
       },
       errorMessages: []
     }
@@ -63,3 +64,10 @@ export default({
   }
 })
 </script>
+
+<style scoped>
+.test-user {
+  font-size: 16px;
+  font-weight: normal;
+}
+</style>

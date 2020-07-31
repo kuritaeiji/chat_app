@@ -58,8 +58,9 @@
           <b-form-file id="avatar" @change="onChange"></b-form-file>
         </b-form-group>
         
-        <div class="text-center">
+        <div class="d-flex justify-content-center">
           <b-button type="submit" variant="primary">登録</b-button>
+          <router-link to="/login" class="pl-3">ログイン</router-link>
         </div>
       </form>
     </ValidationObserver>

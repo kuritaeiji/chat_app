@@ -3,6 +3,7 @@ ja:
     models:
       user: ユーザー
       group: グループ
+      message: メッセージ
     attributes:
       user:
         name: 名前
@@ -15,3 +16,5 @@ ja:
       group:
         name: グループ名
         avatar: アイコン画像
+      message:
+        content: メッセージ

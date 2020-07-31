@@ -16,8 +16,8 @@ describe('Groups.vue', () => {
 
   beforeEach(() => {
     groups = [
-      { id: 1, name: 'example', avatar: null },
-      { id: 2, name: 'example2', avatar: null }
+      { id: 1, name: 'example', avatar: null, unread_messages_count_by_groups: 1 },
+      { id: 2, name: 'example2', avatar: null, unread_messages_count_by_groups: 1 }
     ]
     mockAxios.onGet('/api/groups').reply('200', groups)
   })

@@ -2,9 +2,22 @@ class Api::GroupsController < ApplicationController
   before_action :logged_in_user
 
   def index
-    @groups = current_user.groups # あとでmessageの新しい順にする。
-    if !@groups.empty?
+    groups = Group.eager_load(:members, :users, :messages).where("users.id = ?", current_user.id)
+    if !groups.empty?
+      # グループをメッセージがあればメッセージの新しい順、メッセージがねければグループが作られた順に並べる
+      @groups = groups.sort do |a, b|
+        if a.messages.length > 0 && b.messages.length > 0
+          b.messages.last.created_at <=> a.messages.last.created_at
+        elsif a.messages.length > 0
+          b.created_at <=> a.messages.last.created_at
+        elsif b.messages.length > 0
+          b.messages.last.created_at <=> a.created_at
+        else
+          b.created_at <=> a.created_at
+        end
+      end
       @groups.each do |group|
+        group.set_unread_messages_count_by_group(current_user)
         group.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if group.avatar.attached?
       end
       render 'index', formats: :json, handlers: 'jbuilder'
