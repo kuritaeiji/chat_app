@@ -34,4 +34,14 @@ describe('Count', () => {
     await flushPromises()
     expect(store.state.Count.unreadMessagesCount).toBe(10)
   })
+
+  it('dispatch updateUnreadMessagesCount', async () => {
+    mockAxios.onGet('/api/messages/return_unread_messages_count').reply('200', { unread_messages_count: 10 })
+    store.dispatch('Count/fetchUnreadMessagesCount')
+    await flushPromises()
+    expect(store.state.Count.unreadMessagesCount).toBe(10)
+
+    store.dispatch('Count/updateUnreadMessagesCount', 2)
+    expect(store.state.Count.unreadMessagesCount).toBe(8)
+  })
 })

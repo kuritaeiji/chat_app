@@ -20,6 +20,9 @@ export default {
     },
     setUnreadMessagesCount(state, payload) {
       state.unreadMessagesCount = payload
+    },
+    updateUnreadMessagesCount(state, payload) {
+      state.unreadMessagesCount -= payload
     }
   },
   actions: {
@@ -38,6 +41,9 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    updateUnreadMessagesCount(context, payload) {
+      context.commit('updateUnreadMessagesCount', payload)
     }
   }
 }
