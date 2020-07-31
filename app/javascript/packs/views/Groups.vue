@@ -10,7 +10,7 @@
               <img v-if="group.avatar" :src="group.avatar" class="img-fluid">
               <img v-else :src="defaultAvatar" class="img-fluid">
             </div>
-            <div class="px-3 group-name">{{ group.name | trim(12) }}</div>
+            <div class="px-3 group-name">{{ group.name | trim(10) }}<span class="pl-2"><b-badge variant="success" v-if="group.unread_messages_count_by_group != 0">{{ group.unread_messages_count_by_group }}</b-badge></span></div>
           </router-link>
         </b-col>
 
@@ -40,12 +40,17 @@ export default {
   },
   mounted() {
     this.fetchGroups()
+    let that = this
+    this.timer = setInterval(() => {
+      that.fetchGroups()
+    }, 5000)
   },
   methods: {
     async fetchGroups() {
       try {
         const response = await client.get('/api/groups')
         if (Array.isArray(response.data)) {
+          this.groups = []
           response.data.forEach((group) => {
             this.groups.push(group)
           })
@@ -56,6 +61,9 @@ export default {
         console.log(error)
       }
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.timer)
   }
 }
 </script>
