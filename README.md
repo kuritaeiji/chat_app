@@ -25,8 +25,11 @@
 
 # 開発環境
   - Ubuntu 18.0.4
+  - Vagrantfile https://github.com/kuritaeiji/chat_app/blob/master/Vagrantfile
  
 # バージョン
+  - DockerFile https://github.com/kuritaeiji/chat_app/blob/master/Dockerfile
+  - docker-compose.yml https://github.com/kuritaeiji/chat_app/blob/master/docker-compose.yml
   - Ruby 2.5.8
   - Ruby on Rails 6.0.2
   - Postgresql 12.2
