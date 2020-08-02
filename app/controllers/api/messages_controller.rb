@@ -67,7 +67,8 @@ class Api::MessagesController < ApplicationController
     if @message.save
       @message = group.messages.includes(:user).where("user_id = ?", current_user.id).last
       @message.attach_image(params[:message][:avatar])
-      @message.convert_image_to_url(variant: { combine_options: {resize:"100x100^",crop:"100x100+0+0",gravity: :center} }) if @message.avatar.attached?
+      @message.convert_image_to_url({}) if @message.avatar.attached?
+      @message.user.convert_image_to_url(variant: { combine_options: {resize:"50x50^",crop:"50x50+0+0",gravity: :center} }) if @message.user.avatar.attached?
       render 'create', formats: :json, handlers: 'jbuilder'
     else
       render 'error', formats: :json, handlers: 'jbuilder'

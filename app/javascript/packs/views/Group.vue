@@ -17,9 +17,9 @@
           さらに表示
         </div>
 
-        <div class="d-flex justify-content-start w-100 p-3 message" id="content">
+        <div class="d-flex justify-content-start w-100 p-3 message" id="content" v-if="messageAndUser.message.content">
           <div>
-            <img :src="messageAndUser.user.avatar" v-if="messageAndUser.message.avatar">
+            <img :src="messageAndUser.user.avatar" v-if="messageAndUser.user.avatar">
             <img :src="defaultAvatar" v-else width="50px" height="50px">
           </div>
           <div class="pl-2">
@@ -34,7 +34,7 @@
 
         <div class="d-flex justify-content-start w-100 p-3 message" id="avatar" v-if="messageAndUser.message.avatar">
           <div>
-            <img :src="messageAndUser.user.avatar" v-if="messageAndUser.message.avatar">
+            <img :src="messageAndUser.user.avatar" v-if="messageAndUser.user.avatar">
             <img :src="defaultAvatar" v-else width="50px" height="50px">
           </div>
           <div class="pl-2">
