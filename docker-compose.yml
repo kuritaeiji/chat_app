@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  rails:
+    container_name: rails
+    build: .
+    ports:
+      - "3000:3000"
+      - "3035:3035"
+      - "587:587"
+    environment:
+      - "DATABASE_HOST=db"
+      - "DATABASE_PORT=5432"
+      - "DATABASE_USER=postgres"
+      - "DATABASE_PASSWORD=admin"
+    links:
+      - db
+    volumes:
+      - ".:/app"
+      - bundle:/usr/local/bundle
+      - node-modules:/app/chat_app/node_modules
+    stdin_open: true
+    tty: true
+
+  db:
+    container_name: db
+    image: postgres:12.2
+    ports:
+      - "5432:5432"
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=admin"
+    volumes:
+      - pgvolume:/var/lib/postgresql/data
+
+volumes:
+  bundle:
+  node-modules:
+  pgvolume:
